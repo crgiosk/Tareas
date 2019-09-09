@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Tareas</string>
+    <string name="TaskUSer">User</string>
+    <string name="TaskPassword">Password</string>
+    <string name="LogButtont">Entrar</string>
+    <string name="LoginButton">Crear Cuenta</string>
+    <string name="TaskAsunto">Subject</string>
+    <string name="TaskDescr">Description</string>
+    <string name="TaskPoints">Points</string>
+    <string name="TaskDateFinal">Delivery</string>
+    <string name="TaskButtonSave">Save</string>
+</resources>
+
