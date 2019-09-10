@@ -1,6 +1,7 @@
 package com.example.tareas.Vistas;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -103,9 +104,13 @@ public class NewTask extends AppCompatActivity {
             Toast.makeText(this.getApplicationContext(),"sql : "+user+" "+subject.getText().toString()+" "+description.getText().toString()+" "+points.getText().toString()
                     +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
 
+
         }else {
 
             Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
+            Intent taskView=new Intent(this,Tasks.class);
+            taskView.putExtra("user_log",user);
+            startActivity(taskView);
         }
     }
 

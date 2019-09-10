@@ -53,20 +53,11 @@ public class CrudTask extends Actions {
     }
 
     public Cursor showTasks(String user) {
-        sql = "SELECT * FROM " + Utilidades.nameTables[1] + " WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';";
+        sql = "SELECT * FROM " + Utilidades.nameTables[1]+";" ;
+        // " WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';show tables;"
         Log.e("TESTING     ",sql);
-        Cursor tareas = consult(sql);
-        if (tareas.moveToNext()) {
-            Log.e("TESTING     ",tareas.getString(0).toUpperCase());
-            Log.e("TESTING     ",tareas.getString(1).toUpperCase());
-            Log.e("TESTING     ",tareas.getString(2).toUpperCase());
-            Log.e("TESTING     ",tareas.getString(3).toUpperCase());
-            Log.e("TESTING     ",tareas.getString(4).toUpperCase());
-            return tareas;
-        } else {
-            Toast.makeText(context, "No se econtraron tareas.", Toast.LENGTH_LONG).show();
-            return null;
-        }
+        return consult(sql);
+
     }
 
 

@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
                         textViewUserPassword.setError("Incorrect password");
                         return;
                     }
-
-                    showMessage("ENtra a otra pantalla");
                 }
             } catch (Exception ex) {
                 showMessage("eeror " + ex.getMessage());

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 public class Tasks extends AppCompatActivity {
     private Button button;
     protected ListView listTasks;
+    ArrayList<String> ListaTareas;
+    ArrayList<String> ListaInfo;
+
     protected EditText editexUser;
     protected String user;
 
@@ -53,21 +57,22 @@ public class Tasks extends AppCompatActivity {
 
             CrudTask crudTask = new CrudTask(this);
             Cursor tareas = crudTask.showTasks(user);
-
-            while (tareas.moveToNext()) {
-                //muestra daots por consola; ordenar
-                Log.e("TESTING     ", tareas.getString(0).toUpperCase());
-                Log.e("TESTING     ", tareas.getString(1).toUpperCase());
-                Log.e("TESTING     ", tareas.getString(2).toUpperCase());
-                Log.e("TESTING     ", tareas.getString(3).toUpperCase());
-                Log.e("TESTING     ", tareas.getString(4).toUpperCase());
+            int registros = tareas.getCount();
+            //muestra daots por consola; ordenar
+            Log.e("count ", " s" + registros);
+            for (tareas.moveToFirst();!tareas.isAfterLast();tareas.moveToNext()) {
+                Log.e("test  ","  testiiing  ;" +tareas.getString(1));
             }
-        } catch (Exception e) {
-            Toast.makeText(this,e.getMessage().toUpperCase(), Toast.LENGTH_LONG).show();
+
+
+            Log.e("lenghConsulta", "El getCount: " + tareas.getCount());
+//Toast.makeText(this,"No se encontraron tareas",Toast.LENGTH_LONG).show();
+
+        } catch (
+                SQLiteException e) {
+            Toast.makeText(this, e.getMessage().toUpperCase(), Toast.LENGTH_LONG).show();
+            return;
         }
-
-        Log.e("m", "testeeeeeeeeeeeeeeeeeeeEEEEEEEEEEEEEEESSSSSSSSS  fails");
-
 
     }
 
