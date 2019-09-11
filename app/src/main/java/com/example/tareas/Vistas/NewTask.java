@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tareas.Actions.CrudTask;
@@ -43,24 +44,23 @@ public class NewTask extends AppCompatActivity {
                 tes();
             }
         });
-        user=getIntent().getStringExtra("user_log");
+        user = getIntent().getStringExtra("user_log");
     }
 
     private void tes() {
-        calendar=Calendar.getInstance();
+        calendar = Calendar.getInstance();
 
-        int y=calendar.get(Calendar.YEAR);
-        int m=calendar.get(Calendar.MONTH);
-        int d=calendar.get(Calendar.DAY_OF_MONTH);
+        int y = calendar.get(Calendar.YEAR);
+        int m = calendar.get(Calendar.MONTH);
+        int d = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                delivery.setText(year+"-"+month+"-"+day);
+                delivery.setText(year + "-" + month + "-" + day);
             }
-        },y,m,d);
+        }, y, m, d);
         datePickerDialog.show();
-
 
 
         //yyyy-mm-dd
@@ -83,10 +83,10 @@ public class NewTask extends AppCompatActivity {
             //Aqui funciona bien
             //Toast.makeText(this.getApplicationContext(), "Tarea guardada.", Toast.LENGTH_LONG).show();
             if (!(delivery.getText().toString().isEmpty() || delivery.getText().equals("")))
-            Task();
+                Task();
             else
-                Toast.makeText(this,"Elija una fecha de entrega.",Toast.LENGTH_LONG).show();
-                delivery.setError("Elija una fecha de entrega.");
+                Toast.makeText(this, "Elija una fecha de entrega.", Toast.LENGTH_LONG).show();
+            delivery.setError("Elija una fecha de entrega.");
             return;
         } else {
             Toast.makeText(this, "Falta informacion requerida.", Toast.LENGTH_LONG).show();
@@ -97,27 +97,27 @@ public class NewTask extends AppCompatActivity {
     }
 
 
-    private void Task(){
-        CrudTask task=new CrudTask(this.getApplicationContext());
-        String task_test = task.SaveTask(user,subject.getText().toString(),description.getText().toString(),points.getText().toString(),delivery.getText().toString());
-        if (task_test.equals("fail")){
+    private void Task() {
+        CrudTask task = new CrudTask(this.getApplicationContext());
+        String task_test = task.SaveTask(user, subject.getText().toString(), description.getText().toString(), points.getText().toString(), delivery.getText().toString());
+        if (task_test.equals("fail")) {
 
 
             //Toast.makeText(this.getApplicationContext(),"sql : "+user+" "+subject.getText().toString()+" "+description.getText().toString()+" "+points.getText().toString()
-             //       +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
+            //       +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
 
-                return;
-        }else {
+            return;
+        } else {
 
             //Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
-            Intent taskView=new Intent(this,Tasks.class);
-            taskView.putExtra("user_log",user);
-            cleanFields();
+            Intent taskView = new Intent(this, Tasks.class);
+            taskView.putExtra("user_log", user);
             startActivity(taskView);
+            cleanFields();
         }
     }
 
-    private void cleanFields(){
+    private void cleanFields() {
         subject.setText("");
         description.setText("");
         points.setText("");
@@ -138,11 +138,17 @@ public class NewTask extends AppCompatActivity {
         } else if (description.getText().toString().length() < 4) {
             description.setError("Debe tener minimo 4 caracteres.");
             return false;
+        } else if (points.length() > 4) {
+            points.setError("Numero de puntos no validos. Debe ser <9999");
+            return false;
         } else {
             try {
                 this.pointTask = Integer.parseInt(points.getText().toString());
                 if (pointTask <= 0) {
                     points.setError("Solo debe contener numeros positivos (mayores que cero).");
+                    return false;
+                } else if (pointTask == 0) {
+                    points.setError("La tarea no puede tener 0 puntos.");
                     return false;
                 } else {
                     return true;

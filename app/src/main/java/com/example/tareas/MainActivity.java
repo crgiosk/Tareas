@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 createCuenta();
             }
         });
-
         buttonLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,19 +55,20 @@ public class MainActivity extends AppCompatActivity {
                 crud = new CrudUser(getApplicationContext(), user, password);
 
                 if (crud.getNickName().isEmpty()) {
-                    showMessage("No se encontro usuario en la base de datos.");
+                    showMessage("No se encontro usuario en la base de datos. Intente crear una cuenta.");
                 } else {
                     if (crud.getPassword().equals(password)) {
                         intent = new Intent(this, Tasks.class);
-                        intent.putExtra("user_log",user);
+                        intent.putExtra("user_log", user);
                         startActivity(intent);
+                        cleanFields();
                     } else {
                         textViewUserPassword.setError("Incorrect password");
                         return;
                     }
                 }
             } catch (Exception ex) {
-                showMessage("eeror " + ex.getMessage());
+                showMessage("Error " + ex.getMessage());
                 return;
             }
         }
@@ -86,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
             crud = new CrudUser(getApplicationContext(), user, password);
 
             if (crud.getNickName().isEmpty()) {
-                showMessage("Todo bien; procede a guardar   " + crud.saveUser());
+                if (crud.saveUser()!= 666) showMessage("Usuario creado.");
+                else{
+                    showMessage("Error al guardar el usuario.");
+                    return;
+                }
             } else {
                 textViewUserName.setError("Este usuario ya existe.");
                 return;
@@ -101,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
         textViewUserName = findViewById(R.id.editTextUser);
         textViewUserPassword = findViewById(R.id.editTextPassword);
     }
+    private void cleanFields(){
+        textViewUserName.setText("");
+        textViewUserPassword.setText("");
 
+    }
 
     //only show messages
     private void showMessage(String message) {
@@ -135,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
     //Valida que los caracteres en los campos sean mayor de 5
     private boolean lenghtRequireed() {
         //length mayor de 5 caracterres para los dos inputs
-        if (textViewUserName.getText().length() < 5) {
-            textViewUserName.setError("Debe tener minimo 5 caracteres.");
+        if (textViewUserName.getText().length() < 3) {
+            textViewUserName.setError("Debe tener minimo 3 caracteres.");
             return false;
 
         } else if (textViewUserPassword.getText().length() < 5) {
@@ -146,4 +154,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+
 }
