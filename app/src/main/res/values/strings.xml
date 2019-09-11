@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tareas</string>
+    <string name="app_name">TaskToDo</string>
     <string name="TaskUSer">User</string>
     <string name="TaskPassword">Password</string>
     <string name="LogButtont">Entrar</string>
@@ -11,5 +11,8 @@
     <string name="TaskButtonSave">Save</string>
     <string name="TaskButtonNewTask">New Task</string>
     <string name="ingrese_password">Ingrese Password</string>
+    <string name="TittleNewTaskActivity">New Task</string>
+    <string name="TittleTasks">Tasks to do </string>
+    <string name="TittleNewLog">TaskToDo</string>
 </resources>
 

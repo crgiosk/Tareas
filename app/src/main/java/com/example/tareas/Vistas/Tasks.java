@@ -34,6 +34,7 @@ public class Tasks extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle(R.string.TittleTasks);
         setContentView(R.layout.activity_tasks);
         setValues();
         tex();

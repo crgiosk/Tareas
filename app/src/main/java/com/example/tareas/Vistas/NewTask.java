@@ -9,13 +9,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tareas.Actions.CrudTask;
 import com.example.tareas.R;
-import com.example.tareas.Utilidades.Utilidades;
 
 import java.util.Calendar;
 
@@ -31,6 +28,7 @@ public class NewTask extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle(R.string.TittleNewTaskActivity);
         setContentView(R.layout.activity_new_task);
         setValues();
         buttonNewTask.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +112,16 @@ public class NewTask extends AppCompatActivity {
             //Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
             Intent taskView=new Intent(this,Tasks.class);
             taskView.putExtra("user_log",user);
+            cleanFields();
             startActivity(taskView);
         }
+    }
+
+    private void cleanFields(){
+        subject.setText("");
+        description.setText("");
+        points.setText("");
+        delivery.setText("");
     }
 
     private boolean emptyValues() {
