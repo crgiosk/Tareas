@@ -63,7 +63,10 @@ public class Tasks extends AppCompatActivity {
         newtask.putExtra("description",ListaTareas.get(row).getDescription());
         newtask.putExtra("points",ListaTareas.get(row).getPoints());
         newtask.putExtra("delivery",ListaTareas.get(row).getDelivery());
+        newtask.putExtra("idTask",ListaTareas.get(row).getId());
+
         startActivity(newtask);
+        this.finish();
     }
 
     private void newTask() {
@@ -71,6 +74,7 @@ public class Tasks extends AppCompatActivity {
         newtask.putExtra("user_log", user);
         newtask.putExtra("action","Save");
         startActivity(newtask);
+        this.finish();
     }
 
     private void tex() {
@@ -87,7 +91,7 @@ public class Tasks extends AppCompatActivity {
 
                 for (tareas.moveToFirst(); !tareas.isAfterLast(); tareas.moveToNext()) {
                     classTask = new Task();
-                    classTask.setId(tareas.getString(5));
+                    classTask.setId(tareas.getInt(5));
                     classTask.setObject(tareas.getString(1));
                     classTask.setDescription(tareas.getString(2));
                     classTask.setPoints(tareas.getString(3));

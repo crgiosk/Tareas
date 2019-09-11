@@ -25,7 +25,8 @@ public class NewTask extends AppCompatActivity {
     private TextView delivery;
     private Button buttonNewTask;
     private String user, action;
-    private ArrayList listTask;
+    private String idTask="0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class NewTask extends AppCompatActivity {
             description.setText(getIntent().getStringExtra("description"));
             points.setText(getIntent().getStringExtra("points"));
             delivery.setText(getIntent().getStringExtra("delivery"));
+            idTask=getIntent().getStringExtra("idTask");
 
         }
         buttonNewTask.setText(action);
@@ -96,15 +98,8 @@ public class NewTask extends AppCompatActivity {
         } else if (validateFields()) {
             //Aqui funciona bien
             //Toast.makeText(this.getApplicationContext(), "Tarea guardada.", Toast.LENGTH_LONG).show();
-            if (!(delivery.getText().toString().isEmpty() || delivery.getText().equals("")))
-                if (action.toLowerCase().equals("update")) {
-                    Toast.makeText(this,"procede a guardar.",Toast.LENGTH_LONG).show();
-
-                    return;
-                } else {
-
-                    Task();
-                }
+            if (!delivery.getText().toString().isEmpty())
+               Task();
             else
                 Toast.makeText(this, "Elija una fecha de entrega.", Toast.LENGTH_LONG).show();
             delivery.setError("Elija una fecha de entrega.");
@@ -120,18 +115,19 @@ public class NewTask extends AppCompatActivity {
 
     private void Task() {
         CrudTask task = new CrudTask(this.getApplicationContext());
-        String task_test = task.SaveTask(user, subject.getText().toString(), description.getText().toString(), points.getText().toString(), delivery.getText().toString());
+        String task_test = task.SaveTask(user, subject.getText().toString(), description.getText().toString(), points.getText().toString(), delivery.getText().toString(),idTask,action);
         if (task_test.equals("fail")) {
 
             Toast.makeText(this.getApplicationContext(), "Error inesperado.", Toast.LENGTH_LONG).show();
             return;
         } else {
-
+            this.finish();
             //Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
             Intent taskView = new Intent(this, Tasks.class);
             taskView.putExtra("user_log", user);
             startActivity(taskView);
             cleanFields();
+
         }
     }
 

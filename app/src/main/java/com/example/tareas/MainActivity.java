@@ -58,10 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     showMessage("No se encontro usuario en la base de datos. Intente crear una cuenta.");
                 } else {
                     if (crud.getPassword().equals(password)) {
+
                         intent = new Intent(this, Tasks.class);
                         intent.putExtra("user_log", user);
                         startActivity(intent);
                         cleanFields();
+                        this.finish();
                     } else {
                         textViewUserPassword.setError("Incorrect password");
                         return;
