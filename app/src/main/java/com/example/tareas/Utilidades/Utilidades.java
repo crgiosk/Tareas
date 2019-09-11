@@ -20,10 +20,10 @@ public class Utilidades {
             nameFieldsTableTask[1]+" varchar(15) NOT NULL," +
             nameFieldsTableTask[2]+" text NOT NULL," +
             nameFieldsTableTask[3]+" varchar(4) NOT NULL," +
-            nameFieldsTableTask[4]+" varchar(15) NOT NULL);"+
+            nameFieldsTableTask[4]+" varchar(15) NOT NULL," +
             //Linea 20 creacion de la clave foranea
-            "ALTER TABLE "+nameTables[1]+" ADD CONSTRAINT foreignK_"+nameTables[0]+" FOREIGN KEY ("+nameFieldsTableTask[0]+") REFERENCES "+nameTables[0]+ " ("+nameFieldsTableUser[0]+") " +
-            "ON UPDATE CASCADE ON DELETE CASCADE;";
+            "FOREIGN KEY ("+nameFieldsTableTask[0]+") REFERENCES "+nameTables[0]+ " ("+nameFieldsTableUser[0]+") ON UPDATE CASCADE ON DELETE CASCADE);";
+
 
 
     public static String deleteTableUser="DROP TABLE IF EXIST "+Utilidades.createTableUser;

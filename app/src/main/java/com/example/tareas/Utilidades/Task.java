@@ -1,7 +1,7 @@
 package com.example.tareas.Utilidades;
 
 public class Task {
-    private String object,description,points,delivery;
+    private String object,description,points,delivery,id;
 
     public String getObject() {
         return object;
@@ -33,5 +33,13 @@ public class Task {
 
     public void setDelivery(String delivery) {
         this.delivery = delivery;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,11 +24,11 @@ import java.util.ArrayList;
 public class Tasks extends AppCompatActivity {
     private Button button;
     protected ListView listView_Tasks;
+    private String[] idTareas;
     ArrayList<Task> ListaTareas;
     ArrayList<String> ListaInfo;
     Task classTask;
 
-    protected EditText editexUser;
     protected String user;
 
     @Override
@@ -42,7 +43,17 @@ public class Tasks extends AppCompatActivity {
                 newTask();
             }
         });
+        listView_Tasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectTask(i);
+            }
+        });
 
+    }
+
+    private void selectTask(int row){
+        Toast.makeText(this,"Clickeo una tarea id tarea es: "+idTareas[row],Toast.LENGTH_LONG).show();
     }
 
     private void newTask() {
@@ -52,14 +63,11 @@ public class Tasks extends AppCompatActivity {
     }
 
     private void tex() {
-        editexUser.setText(user);
-
-
         try {
 
             CrudTask crudTask = new CrudTask(this);
             Cursor tareas = crudTask.showTasks(user);
-            Log.e("test  ", "  testiiing  ;" + tareas.getCount());
+            Log.e("CuentaDeFilas  ", "  getCount: " + tareas.getCount());
 
             //muestra daots por consola; ordenar
             if (tareas.getCount() != 0) {
@@ -68,30 +76,30 @@ public class Tasks extends AppCompatActivity {
 
                 for (tareas.moveToFirst(); !tareas.isAfterLast(); tareas.moveToNext()) {
                     classTask = new Task();
+                    classTask.setId(tareas.getString(5));
                     classTask.setObject(tareas.getString(1));
                     classTask.setDescription(tareas.getString(2));
                     classTask.setPoints(tareas.getString(3));
                     classTask.setDelivery(tareas.getString(4));
 
                     ListaTareas.add(classTask);
-
-                    Log.e("test  ", "  testiiing  ;" + tareas.getString(1));
-
-
+                    Log.e("0  ", "  result  ;" + tareas.getString(0));
+                    Log.e("1  ", "  result  ;" + tareas.getString(1));
+                    Log.e("2  ", "  result  ;" + tareas.getString(2));
+                    Log.e("3  ", "  result  ;" + tareas.getString(3));
+                    Log.e("4  ", "  result  ;" + tareas.getString(4));
+                    Log.e("supuestoID  ", "  testiiing  ;" + tareas.getString(5));
                 }
                 tareas.close();
-
                 getLista();
-
                 ArrayAdapter adp=new ArrayAdapter(this,android.R.layout.simple_list_item_1,ListaInfo);
                 listView_Tasks.setAdapter(adp);
 
             } else {
-                Toast.makeText(this, "No se encontraron tareas", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "No se encontraron tareas", Toast.LENGTH_LONG).show();
                 return;
             }
-        } catch (
-                SQLiteException e) {
+        } catch (SQLiteException e) {
             Toast.makeText(this, e.getMessage().toUpperCase(), Toast.LENGTH_LONG).show();
             return;
         }
@@ -100,15 +108,17 @@ public class Tasks extends AppCompatActivity {
 
     private void getLista() {
         ListaInfo = new ArrayList<String>();
+        idTareas=new String[ListaTareas.size()];
         for (int i = 0; i < ListaTareas.size(); i++) {
-            ListaInfo.add(ListaTareas.get(i).getObject() + " - " + ListaTareas.get(i).getDescription() + " - " + ListaTareas.get(i).getPoints() + " - " + ListaTareas.get(i).getDelivery());
+            idTareas[i]=ListaTareas.get(i).getId();
+            ListaInfo.add("\nAsunto: "+ListaTareas.get(i).getObject() + "\nDescripcion: " + ListaTareas.get(i).getDescription() +
+                          "\nPuntos: " + ListaTareas.get(i).getPoints() + "\nEntrega: " + ListaTareas.get(i).getDelivery()+"\n");
         }
     }
 
 
     private void setValues() {
         listView_Tasks = findViewById(R.id.listViewTasks);
-        editexUser = findViewById(R.id.editTextUSerListTasks);
         button = findViewById(R.id.buttonNewTasActivity);
         user = getIntent().getStringExtra("user_log");
 

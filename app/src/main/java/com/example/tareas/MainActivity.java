@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 log();
             }
         });
+
     }
 
     private void log() {
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //crea un nuevo usuario
     private void createCuenta() {

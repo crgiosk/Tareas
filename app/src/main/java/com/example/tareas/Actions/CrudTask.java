@@ -33,29 +33,29 @@ public class CrudTask extends Actions {
     public String SaveTask(String user, String subject, String description, String points, String entrega) {
 
         try {
-        /*
-            values = new ContentValues();
-            values.put("user", user);
-            values.put(Utilidades.nameFieldsTableTask[1], subject);
-            values.put(Utilidades.nameFieldsTableTask[2], description);
-            values.put(Utilidades.nameFieldsTableTask[3], points);
-            values.put(Utilidades.nameFieldsTableTask[4], entrega);
+            sql = "INSERT INTO task ("+
+                    Utilidades.nameFieldsTableTask[0]+"," +
+                    Utilidades.nameFieldsTableTask[1]+"," +
+                    Utilidades.nameFieldsTableTask[2]+"," +
+                    Utilidades.nameFieldsTableTask[3]+"," +
+                    Utilidades.nameFieldsTableTask[4]+ ")   VALUES ('" +
+                    user + "' ,'" + subject + "' ,'" + description + "' ,'" + points + "' ,'" + entrega + "');";
 
-         */
-            sql = "INSERT INTO task VALUES ('" + user + "' ,'" + subject + "' ,'" + description + "' ,'" + points + "' ,'" + entrega + "')";
-            Toast.makeText(context, "sql : " + insert(sql), Toast.LENGTH_LONG).show();
-            return "success";
+             Log.e("r   ","sql : " + sql.toUpperCase());
+
+            return String.valueOf(insert(sql));
         } catch (SQLiteException ex) {
-            Toast.makeText(context, "Error al ingresar los datos " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, "Error al ingresar los datos " + ex.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e("e   ", ex.getMessage().toUpperCase());
             return "fail";
         }
 
     }
 
     public Cursor showTasks(String user) {
-        sql = "SELECT * FROM " + Utilidades.nameTables[1]+";" ;
+        sql = "SELECT " + Utilidades.nameTables[1]+".*,rowid FROM " + Utilidades.nameTables[1]+" WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';";
         // " WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';show tables;"
-        Log.e("TESTING     ",sql);
+        Log.e("TESTINGShowtask    ",sql);
         return consult(sql);
 
     }

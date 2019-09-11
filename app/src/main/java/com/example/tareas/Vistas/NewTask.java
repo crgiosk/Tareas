@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +21,7 @@ import java.util.Calendar;
 
 public class NewTask extends AppCompatActivity {
     private EditText subject, description, points;
-    private TextView delivery,user_log;
+    private TextView delivery;
     private int pointTask = 0;
     private Button buttonNewTask;
     private DatePickerDialog datePickerDialog;
@@ -45,8 +46,6 @@ public class NewTask extends AppCompatActivity {
             }
         });
         user=getIntent().getStringExtra("user_log");
-        user_log.setText(user);
-
     }
 
     private void tes() {
@@ -85,7 +84,12 @@ public class NewTask extends AppCompatActivity {
         } else if (validateFields()) {
             //Aqui funciona bien
             //Toast.makeText(this.getApplicationContext(), "Tarea guardada.", Toast.LENGTH_LONG).show();
+            if (!(delivery.getText().toString().isEmpty() || delivery.getText().equals("")))
             Task();
+            else
+                Toast.makeText(this,"Elija una fecha de entrega.",Toast.LENGTH_LONG).show();
+                delivery.setError("Elija una fecha de entrega.");
+            return;
         } else {
             Toast.makeText(this, "Falta informacion requerida.", Toast.LENGTH_LONG).show();
             return;
@@ -101,13 +105,13 @@ public class NewTask extends AppCompatActivity {
         if (task_test.equals("fail")){
 
 
-            Toast.makeText(this.getApplicationContext(),"sql : "+user+" "+subject.getText().toString()+" "+description.getText().toString()+" "+points.getText().toString()
-                    +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.getApplicationContext(),"sql : "+user+" "+subject.getText().toString()+" "+description.getText().toString()+" "+points.getText().toString()
+             //       +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
 
-
+                return;
         }else {
 
-            Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.getApplicationContext(),"success : "+task_test,Toast.LENGTH_LONG).show();
             Intent taskView=new Intent(this,Tasks.class);
             taskView.putExtra("user_log",user);
             startActivity(taskView);
@@ -150,6 +154,5 @@ public class NewTask extends AppCompatActivity {
         points = findViewById(R.id.editTextTaskPoints);
         delivery = findViewById(R.id.editTextTaskDelivery);
         buttonNewTask = findViewById(R.id.buttonTaskNew);
-        user_log=findViewById(R.id.textViewUser_newtask);
     }
 }

@@ -22,16 +22,29 @@ public class AdminSQL extends SQLiteOpenHelper {
         this.myDb=myDb;
         try {
             crearTablas();
+            Log.e("table user ",Utilidades.createTableUser.toUpperCase());
+            Log.e("table task ",Utilidades.createTableTask.toUpperCase());
         }catch (SQLiteException ex){
             Toast.makeText(context,"Error al crear las tablas\n"+ex.getMessage(),Toast.LENGTH_LONG).show();
+            Log.e("r ",ex.getMessage().toUpperCase());
+            Log.e("table user ",Utilidades.createTableUser.toUpperCase());
+            Log.e("table task ",Utilidades.createTableTask.toUpperCase());
             return;
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase myDB, int i, int i1) {
-        eliminarTablas();
+        Log.e("table user ",Utilidades.createTableUser.toUpperCase());
+        Log.e("table task ",Utilidades.createTableTask.toUpperCase());
+        try{
+            eliminarTablas();
         crearTablas();
+    }catch (SQLiteException ex){
+            Log.e("table user ",Utilidades.createTableUser.toUpperCase());
+            Log.e("table task ",Utilidades.createTableTask.toUpperCase());
+            Log.e("r ",ex.getMessage().toUpperCase());
+        }
     }
 
     private void crearTablas(){
