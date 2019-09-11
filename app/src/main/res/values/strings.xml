@@ -9,6 +9,7 @@
     <string name="TaskPoints">Points</string>
     <string name="TaskDateFinal">Delivery</string>
     <string name="TaskButtonSave">Save</string>
+    <string name="TaskButtonDEleteTask">Delete</string>
     <string name="TaskButtonNewTask">New Task</string>
     <string name="TaskButtonUpdateTask">Update</string>
     <string name="ingrese_password">Ingrese Password</string>

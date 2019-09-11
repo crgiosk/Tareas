@@ -23,7 +23,7 @@ import java.util.Calendar;
 public class NewTask extends AppCompatActivity {
     private EditText subject, description, points;
     private TextView delivery;
-    private Button buttonNewTask;
+    private Button buttonNewTask,buttonDeleteTask;
     private String user, action;
     private String idTask="0";
 
@@ -55,23 +55,18 @@ public class NewTask extends AppCompatActivity {
             points.setText(getIntent().getStringExtra("points"));
             delivery.setText(getIntent().getStringExtra("delivery"));
             idTask=getIntent().getStringExtra("idTask");
+            buttonDeleteTask.setVisibility(View.VISIBLE);
 
         }
+
         buttonNewTask.setText(action);
-    }
-
-
-    private void updateTask() {
-
     }
 
     private void tes() {
         Calendar calendar = Calendar.getInstance();
-
         int y = calendar.get(Calendar.YEAR);
         int m = calendar.get(Calendar.MONTH);
         int d = calendar.get(Calendar.DAY_OF_MONTH);
-
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -79,11 +74,7 @@ public class NewTask extends AppCompatActivity {
             }
         }, y, m, d);
         datePickerDialog.show();
-
-
         //yyyy-mm-dd
-        // Toast.makeText(this, "mostrar el data", Toast.LENGTH_LONG).show();
-
     }
 
     private void saveTask() {
@@ -110,8 +101,6 @@ public class NewTask extends AppCompatActivity {
         }
 
     }
-
-
 
     private void Task() {
         CrudTask task = new CrudTask(this.getApplicationContext());
@@ -180,5 +169,7 @@ public class NewTask extends AppCompatActivity {
         points = findViewById(R.id.editTextTaskPoints);
         delivery = findViewById(R.id.editTextTaskDelivery);
         buttonNewTask = findViewById(R.id.buttonTaskNew);
+        buttonDeleteTask=findViewById(R.id.buttonTaskDelete);
+
     }
 }

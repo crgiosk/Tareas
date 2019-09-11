@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 crud = new CrudUser(getApplicationContext(), user, password);
 
                 if (crud.getNickName().isEmpty()) {
-                    showMessage("No se encontro usuario en la base de datos. Intente crear una cuenta.");
+                    showMessage("Usuario o contraseña incorrecta.");
                 } else {
                     if (crud.getPassword().equals(password)) {
 
