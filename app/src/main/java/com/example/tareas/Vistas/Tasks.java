@@ -24,10 +24,10 @@ import java.util.ArrayList;
 public class Tasks extends AppCompatActivity {
     private Button button;
     protected ListView listView_Tasks;
-    private String[] idTareas;
-    ArrayList<Task> ListaTareas;
-    ArrayList<String> ListaInfo;
-    Task classTask;
+    private ArrayList<Task> ListaTareas;
+    private ArrayList<String> ListaInfo;
+    private Task classTask;
+    private Intent newtask;
 
     protected String user;
 
@@ -54,12 +54,22 @@ public class Tasks extends AppCompatActivity {
     }
 
     private void selectTask(int row){
-        Toast.makeText(this,"Clickeo una tarea id tarea es: "+idTareas[row],Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Clickeo una tarea id tarea es: "+ListaTareas.get(row).getId(),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"La tarea contiene "+ListaTareas.get(row).getPoints(),Toast.LENGTH_LONG).show();
+        newtask= new Intent(this, NewTask.class);
+        newtask.putExtra("user_log", user);
+        newtask.putExtra("action","Update");
+        newtask.putExtra("object",ListaTareas.get(row).getObject());
+        newtask.putExtra("description",ListaTareas.get(row).getDescription());
+        newtask.putExtra("points",ListaTareas.get(row).getPoints());
+        newtask.putExtra("delivery",ListaTareas.get(row).getDelivery());
+        startActivity(newtask);
     }
 
     private void newTask() {
-        Intent newtask = new Intent(this, NewTask.class);
+         newtask= new Intent(this, NewTask.class);
         newtask.putExtra("user_log", user);
+        newtask.putExtra("action","Save");
         startActivity(newtask);
     }
 
@@ -84,6 +94,8 @@ public class Tasks extends AppCompatActivity {
                     classTask.setDelivery(tareas.getString(4));
 
                     ListaTareas.add(classTask);
+
+                    //Mensajes por consola guias en Logcat
                     Log.e("0  ", "  result  ;" + tareas.getString(0));
                     Log.e("1  ", "  result  ;" + tareas.getString(1));
                     Log.e("2  ", "  result  ;" + tareas.getString(2));
@@ -109,9 +121,7 @@ public class Tasks extends AppCompatActivity {
 
     private void getLista() {
         ListaInfo = new ArrayList<String>();
-        idTareas=new String[ListaTareas.size()];
         for (int i = 0; i < ListaTareas.size(); i++) {
-            idTareas[i]=ListaTareas.get(i).getId();
             ListaInfo.add("\nAsunto: "+ListaTareas.get(i).getObject() + "\nDescripcion: " + ListaTareas.get(i).getDescription() +
                           "\nPuntos: " + ListaTareas.get(i).getPoints() + "\nEntrega: " + ListaTareas.get(i).getDelivery()+"\n");
         }

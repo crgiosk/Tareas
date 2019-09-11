@@ -3,6 +3,7 @@ package com.example.tareas.Vistas;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,17 +15,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tareas.Actions.CrudTask;
 import com.example.tareas.R;
+import com.example.tareas.Utilidades.Task;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewTask extends AppCompatActivity {
     private EditText subject, description, points;
     private TextView delivery;
-    private int pointTask = 0;
     private Button buttonNewTask;
-    private DatePickerDialog datePickerDialog;
-    private Calendar calendar;
-    private String user;
+    private String user, action;
+    private ArrayList listTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +46,31 @@ public class NewTask extends AppCompatActivity {
             }
         });
         user = getIntent().getStringExtra("user_log");
+        this.action = getIntent().getStringExtra("action");
+
+        if (action.toLowerCase().equals("update")) {
+            subject.setText(getIntent().getStringExtra("object"));
+            description.setText(getIntent().getStringExtra("description"));
+            points.setText(getIntent().getStringExtra("points"));
+            delivery.setText(getIntent().getStringExtra("delivery"));
+
+        }
+        buttonNewTask.setText(action);
+    }
+
+
+    private void updateTask() {
+
     }
 
     private void tes() {
-        calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
 
         int y = calendar.get(Calendar.YEAR);
         int m = calendar.get(Calendar.MONTH);
         int d = calendar.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 delivery.setText(year + "-" + month + "-" + day);
@@ -64,13 +80,11 @@ public class NewTask extends AppCompatActivity {
 
 
         //yyyy-mm-dd
-        Toast.makeText(this, "mostrar el data", Toast.LENGTH_LONG).show();
+        // Toast.makeText(this, "mostrar el data", Toast.LENGTH_LONG).show();
 
     }
 
-
     private void saveTask() {
-
 
         if (emptyValues()) {
             Toast.makeText(this, "Datos requeridos.", Toast.LENGTH_LONG).show();
@@ -83,7 +97,14 @@ public class NewTask extends AppCompatActivity {
             //Aqui funciona bien
             //Toast.makeText(this.getApplicationContext(), "Tarea guardada.", Toast.LENGTH_LONG).show();
             if (!(delivery.getText().toString().isEmpty() || delivery.getText().equals("")))
-                Task();
+                if (action.toLowerCase().equals("update")) {
+                    Toast.makeText(this,"procede a guardar.",Toast.LENGTH_LONG).show();
+
+                    return;
+                } else {
+
+                    Task();
+                }
             else
                 Toast.makeText(this, "Elija una fecha de entrega.", Toast.LENGTH_LONG).show();
             delivery.setError("Elija una fecha de entrega.");
@@ -93,8 +114,8 @@ public class NewTask extends AppCompatActivity {
             return;
         }
 
-
     }
+
 
 
     private void Task() {
@@ -102,10 +123,7 @@ public class NewTask extends AppCompatActivity {
         String task_test = task.SaveTask(user, subject.getText().toString(), description.getText().toString(), points.getText().toString(), delivery.getText().toString());
         if (task_test.equals("fail")) {
 
-
-            //Toast.makeText(this.getApplicationContext(),"sql : "+user+" "+subject.getText().toString()+" "+description.getText().toString()+" "+points.getText().toString()
-            //       +" "+delivery.getText().toString() +task_test,Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this.getApplicationContext(), "Error inesperado.", Toast.LENGTH_LONG).show();
             return;
         } else {
 
@@ -143,7 +161,7 @@ public class NewTask extends AppCompatActivity {
             return false;
         } else {
             try {
-                this.pointTask = Integer.parseInt(points.getText().toString());
+                int pointTask = Integer.parseInt(points.getText().toString());
                 if (pointTask <= 0) {
                     points.setError("Solo debe contener numeros positivos (mayores que cero).");
                     return false;

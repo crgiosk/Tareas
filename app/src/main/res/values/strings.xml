@@ -10,6 +10,7 @@
     <string name="TaskDateFinal">Delivery</string>
     <string name="TaskButtonSave">Save</string>
     <string name="TaskButtonNewTask">New Task</string>
+    <string name="TaskButtonUpdateTask">Update</string>
     <string name="ingrese_password">Ingrese Password</string>
     <string name="TittleNewTaskActivity">New Task</string>
     <string name="TittleTasks">Tasks to do </string>
