@@ -59,6 +59,9 @@ public class Tasks extends AppCompatActivity {
                 selectTask(i);
             }
         });
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
     }
 
     private boolean exisPreferences() {

@@ -66,6 +66,10 @@ public class NewTask extends AppCompatActivity {
         });
 
         buttonNewTask.setText(action);
+
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
     }
 
     private void deleteUSer() {

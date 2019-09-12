@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 log();
             }
         });
-
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
 
     }
 
