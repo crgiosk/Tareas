@@ -2,8 +2,8 @@
     <string name="app_name">TaskToDo</string>
     <string name="TaskUSer">User</string>
     <string name="TaskPassword">Password</string>
-    <string name="LogButtont">Entrar</string>
-    <string name="LoginButton">Crear Cuenta</string>
+    <string name="LogButtont">Log</string>
+    <string name="LoginButton">Create Account</string>
     <string name="TaskAsunto">Subject</string>
     <string name="TaskDescr">Description</string>
     <string name="TaskPoints">Points</string>

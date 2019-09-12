@@ -156,7 +156,7 @@ public class Tasks extends AppCompatActivity {
                 listView_Tasks.setAdapter(adp);
 
             } else {
-                Toast.makeText(this, "No se encontraron tareas. Registre una.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No task, Try create  it.", Toast.LENGTH_LONG).show();
                 return;
             }
         } catch (SQLiteException e) {

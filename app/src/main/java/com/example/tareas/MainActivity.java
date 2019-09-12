@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
             crud = new CrudUser(getApplicationContext(), user, password);
 
             if (crud.getNickName().isEmpty()) {
-                if (crud.saveUser()!= 666) showMessage("Usuario creado.");
+                if (crud.saveUser()!= 666) showMessage("Success.");
                 else{
                     showMessage("Error al guardar el usuario.");
                     return;
                 }
             } else {
-                editTextUserName.setError("Este usuario ya existe.");
+                editTextUserName.setError("User's already exist.");
                 return;
             }
         }
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
             editTextUserPassword.setError("Required for this action");
 
-            showMessage("Datos obligatorios");
+            showMessage("Information is missing");
             return false;
 
         } else if (editTextUserName.getText().toString().isEmpty()) {

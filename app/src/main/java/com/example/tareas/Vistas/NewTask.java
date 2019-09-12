@@ -99,11 +99,11 @@ public class NewTask extends AppCompatActivity {
     private void saveTask() {
 
         if (emptyValues()) {
-            Toast.makeText(this, "Datos requeridos.", Toast.LENGTH_LONG).show();
-            subject.setError("Obligatorio.");
-            description.setError("Obligatorio.");
-            points.setError("Obligatorio.");
-            delivery.setError("Obligatorio.");
+            Toast.makeText(this, "Information is missing.", Toast.LENGTH_LONG).show();
+            subject.setError("Required.");
+            description.setError("Required.");
+            points.setError("Required.");
+            delivery.setError("Required.");
             return;
         } else if (validateFields()) {
             //Aqui funciona bien
@@ -111,11 +111,11 @@ public class NewTask extends AppCompatActivity {
             if (!delivery.getText().toString().isEmpty())
                Task();
             else
-                Toast.makeText(this, "Elija una fecha de entrega.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Choose a delivery date.", Toast.LENGTH_LONG).show();
             delivery.setError("Elija una fecha de entrega.");
             return;
         } else {
-            Toast.makeText(this, "Falta informacion requerida.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Information is missing.", Toast.LENGTH_LONG).show();
             return;
         }
 
