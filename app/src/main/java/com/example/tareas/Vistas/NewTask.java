@@ -71,7 +71,9 @@ public class NewTask extends AppCompatActivity {
     private void deleteUSer() {
         if (new CrudTask(this).deleteTask(idTask)) {
             Toast.makeText(getApplicationContext(),"Tarea borrada.",Toast.LENGTH_LONG).show();
+
             Intent taskView = new Intent(this, Tasks.class);
+            taskView.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(taskView);
         }
     }

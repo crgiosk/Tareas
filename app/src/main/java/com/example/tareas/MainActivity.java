@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+
     }
 
     private boolean exisPreferences(){
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 crud = new CrudUser(getApplicationContext(), user, password);
 
                 if (crud.getNickName().isEmpty()) {
-                    showMessage("Usuario o contraseña incorrecta.");
+                    showMessage("You're new here? create account.");
                 } else {
                     if (crud.getPassword().equals(password)) {
                         savePreferences();

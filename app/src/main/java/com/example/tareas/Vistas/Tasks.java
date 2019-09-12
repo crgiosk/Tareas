@@ -42,9 +42,12 @@ public class Tasks extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tasks);
 
+
+
         if (exisPreferences()) {
             this.finish();
             intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
         setValues();
@@ -56,7 +59,6 @@ public class Tasks extends AppCompatActivity {
                 selectTask(i);
             }
         });
-
     }
 
     private boolean exisPreferences() {
@@ -81,8 +83,9 @@ public class Tasks extends AppCompatActivity {
             this.finish();
             this.getSharedPreferences("Data" + Utilidades.nameTables[0], 0).edit().clear().commit();
             intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            Toast.makeText(this, "Cerrar cesion." + user, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "See you later " + user.toUpperCase(), Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -98,6 +101,7 @@ public class Tasks extends AppCompatActivity {
         intent.putExtra("idTask", String.valueOf(ListaTareas.get(row).getId()));
 
         Log.e("id TAREA ", String.valueOf(ListaTareas.get(row).getId()));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         startActivity(intent);
     }
