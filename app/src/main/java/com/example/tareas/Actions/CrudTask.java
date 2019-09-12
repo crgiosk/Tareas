@@ -65,12 +65,17 @@ public class CrudTask extends Actions {
         }
     }
 
+    public boolean deleteTask(String task){
+        sql="DELETE FROM " + Utilidades.nameTables[1] + " WHERE rowid='"+task+"';";
+        Log.e("DELTE ",sql);
+        return insert(sql);
+    }
+
     public Cursor showTasks(String user) {
         sql = "SELECT " + Utilidades.nameTables[1] + ".*,rowid FROM " + Utilidades.nameTables[1] + " WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';";
         // " WHERE " + Utilidades.nameFieldsTableTask[0] + "='" + user + "';show tables;"
         Log.e("TESTINGShowtask    ", sql);
         return consult(sql);
-
     }
 
 

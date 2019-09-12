@@ -3,7 +3,6 @@ package com.example.tareas.Vistas;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,9 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tareas.Actions.CrudTask;
 import com.example.tareas.R;
-import com.example.tareas.Utilidades.Task;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class NewTask extends AppCompatActivity {
@@ -30,16 +26,19 @@ public class NewTask extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
-        this.setTitle(R.string.TittleNewTaskActivity);
         setContentView(R.layout.activity_new_task);
         setValues();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         buttonNewTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveTask();
             }
         });
+
+
         delivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,9 +58,23 @@ public class NewTask extends AppCompatActivity {
 
         }
 
+        buttonDeleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteUSer();
+            }
+        });
+
         buttonNewTask.setText(action);
     }
 
+    private void deleteUSer() {
+        if (new CrudTask(this).deleteTask(idTask)) {
+            Toast.makeText(getApplicationContext(),"Tarea borrada.",Toast.LENGTH_LONG).show();
+            Intent taskView = new Intent(this, Tasks.class);
+            startActivity(taskView);
+        }
+    }
     private void tes() {
         Calendar calendar = Calendar.getInstance();
         int y = calendar.get(Calendar.YEAR);

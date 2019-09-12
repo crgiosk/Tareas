@@ -16,5 +16,6 @@
     <string name="TittleNewTaskActivity">New Task</string>
     <string name="TittleTasks">Tasks to do </string>
     <string name="TittleNewLog">TaskToDo</string>
+    <string name="ItemCerrarSesion">Off</string>
 </resources>
 

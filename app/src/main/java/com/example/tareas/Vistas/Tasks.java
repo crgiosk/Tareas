@@ -2,11 +2,15 @@ package com.example.tareas.Vistas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,34 +20,36 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.tareas.Actions.CrudTask;
+import com.example.tareas.MainActivity;
 import com.example.tareas.R;
 import com.example.tareas.Utilidades.Task;
+import com.example.tareas.Utilidades.Utilidades;
 
 import java.util.ArrayList;
 
 public class Tasks extends AppCompatActivity {
-    private Button button;
     protected ListView listView_Tasks;
     private ArrayList<Task> ListaTareas;
     private ArrayList<String> ListaInfo;
     private Task classTask;
-    private Intent newtask;
+    private Intent intent;
+    private SharedPreferences preferences;
 
     protected String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setTitle(R.string.TittleTasks);
         setContentView(R.layout.activity_tasks);
+
+        if (exisPreferences()) {
+            this.finish();
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         setValues();
+
         tex();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newTask();
-            }
-        });
         listView_Tasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -53,32 +59,62 @@ public class Tasks extends AppCompatActivity {
 
     }
 
-    private void selectTask(int row){
-        //Toast.makeText(this,"Clickeo una tarea id tarea es: "+ListaTareas.get(row).getId(),Toast.LENGTH_LONG).show();
-        //Toast.makeText(this,"La tarea contiene "+ListaTareas.get(row).getPoints(),Toast.LENGTH_LONG).show();
-        newtask= new Intent(this, NewTask.class);
-        newtask.putExtra("user_log", user);
-        newtask.putExtra("action","Update");
-        newtask.putExtra("object",ListaTareas.get(row).getObject());
-        newtask.putExtra("description",ListaTareas.get(row).getDescription());
-        newtask.putExtra("points",ListaTareas.get(row).getPoints());
-        newtask.putExtra("delivery",ListaTareas.get(row).getDelivery());
-        newtask.putExtra("idTask",ListaTareas.get(row).getId());
+    private boolean exisPreferences() {
+        preferences = getSharedPreferences("Data" + Utilidades.nameTables[0], Context.MODE_PRIVATE);
+        user = preferences.getString(Utilidades.nameTables[0], null);
 
-        startActivity(newtask);
-        this.finish();
+        return user == null;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menuoverflow, menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.idItemNewTask) {
+            newTask();
+        } else if (id == R.id.itemCerrarSesion) {
+            this.finish();
+            this.getSharedPreferences("Data" + Utilidades.nameTables[0], 0).edit().clear().commit();
+            intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Cerrar cesion." + user, Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void selectTask(int row) {
+        intent = new Intent(this, NewTask.class);
+        intent.putExtra("user_log", user);
+        intent.putExtra("action", "Update");
+        intent.putExtra("object", ListaTareas.get(row).getObject());
+        intent.putExtra("description", ListaTareas.get(row).getDescription());
+        intent.putExtra("points", ListaTareas.get(row).getPoints());
+        intent.putExtra("delivery", ListaTareas.get(row).getDelivery());
+        intent.putExtra("idTask", String.valueOf(ListaTareas.get(row).getId()));
+
+        Log.e("id TAREA ", String.valueOf(ListaTareas.get(row).getId()));
+
+        startActivity(intent);
     }
 
     private void newTask() {
-         newtask= new Intent(this, NewTask.class);
-        newtask.putExtra("user_log", user);
-        newtask.putExtra("action","Save");
-        startActivity(newtask);
-        this.finish();
+        intent = new Intent(this, NewTask.class);
+        intent.putExtra("user_log", user);
+        intent.putExtra("action", "Save");
+        startActivity(intent);
     }
 
     private void tex() {
         try {
+            preferences = getSharedPreferences("Data" + Utilidades.nameTables[0], Context.MODE_PRIVATE);
+
+            //preferences.edit().clear();
+            user = preferences.getString(Utilidades.nameTables[0], null);
 
             CrudTask crudTask = new CrudTask(this);
             Cursor tareas = crudTask.showTasks(user);
@@ -109,7 +145,7 @@ public class Tasks extends AppCompatActivity {
                 }
                 tareas.close();
                 getLista();
-                ArrayAdapter adp=new ArrayAdapter(this,android.R.layout.simple_list_item_1,ListaInfo);
+                ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ListaInfo);
                 listView_Tasks.setAdapter(adp);
 
             } else {
@@ -126,16 +162,12 @@ public class Tasks extends AppCompatActivity {
     private void getLista() {
         ListaInfo = new ArrayList<String>();
         for (int i = 0; i < ListaTareas.size(); i++) {
-            ListaInfo.add("\nAsunto: "+ListaTareas.get(i).getObject() + "\nDescripcion: " + ListaTareas.get(i).getDescription() +
-                          "\nPuntos: " + ListaTareas.get(i).getPoints() + "\nEntrega: " + ListaTareas.get(i).getDelivery()+"\n");
+            ListaInfo.add("\nAsunto: " + ListaTareas.get(i).getObject() + "\nDescripcion: " + ListaTareas.get(i).getDescription() +
+                    "\nPuntos: " + ListaTareas.get(i).getPoints() + "\nEntrega: " + ListaTareas.get(i).getDelivery() + "\n");
         }
     }
 
-
     private void setValues() {
         listView_Tasks = findViewById(R.id.listViewTasks);
-        button = findViewById(R.id.buttonNewTasActivity);
-        user = getIntent().getStringExtra("user_log");
-
     }
 }

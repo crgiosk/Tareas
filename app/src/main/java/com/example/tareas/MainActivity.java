@@ -2,10 +2,13 @@ package com.example.tareas;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,12 +18,11 @@ import com.example.tareas.Vistas.NewTask;
 import com.example.tareas.Vistas.Tasks;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textViewUserName;
-    private TextView textViewUserPassword;
-    private Button buttonNewAccount;
-    private Button buttonLog;
+    private EditText editTextUserName,editTextUserPassword;
+    private Button buttonNewAccount,buttonLog;
     private CrudUser crud;
     private Intent intent;
+    private SharedPreferences preferences;
 
     private String user, password;
 
@@ -29,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setValues();
+
+        if (exisPreferences()){
+            intent = new Intent(this, Tasks.class);
+            startActivity(intent);
+            cleanFields();
+            this.finish();
+        }
         //crea nueva cuenta al presionar el boton nueva cuenta
         buttonNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,12 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private boolean exisPreferences(){
+        preferences=getSharedPreferences("Data"+Utilidades.nameTables[0], Context.MODE_PRIVATE);
+        user=preferences.getString(Utilidades.nameTables[0],null);
+
+        return user!=null;
+    }
+
+
+
     private void log() {
         if (emptyFields() && lenghtRequireed()) {
             try {
-                user = textViewUserName.getText().toString().toLowerCase();
+                user = editTextUserName.getText().toString().toLowerCase();
 
-                password = textViewUserPassword.getText().toString().toLowerCase();
+                password = editTextUserPassword.getText().toString().toLowerCase();
 
                 crud = new CrudUser(getApplicationContext(), user, password);
 
@@ -58,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
                     showMessage("Usuario o contraseña incorrecta.");
                 } else {
                     if (crud.getPassword().equals(password)) {
-
+                        savePreferences();
                         intent = new Intent(this, Tasks.class);
                         intent.putExtra("user_log", user);
                         startActivity(intent);
                         cleanFields();
                         this.finish();
                     } else {
-                        textViewUserPassword.setError("Incorrect password");
+                        editTextUserPassword.setError("Incorrect password");
                         return;
                     }
                 }
@@ -75,15 +93,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+//Establece las preferencias del usuario; en este caso el nombre de usuario
+    private void savePreferences() {
+        preferences=getSharedPreferences("Data"+Utilidades.nameTables[0], Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString(Utilidades.nameTables[0],editTextUserName.getText().toString().toLowerCase());
+        editor.commit();
+    }
 
     //crea un nuevo usuario
     private void createCuenta() {
         //validadcion de que todos los campos cumplan con las restricciones establecidas
         if (emptyFields() && lenghtRequireed()) {
 
-            user = textViewUserName.getText().toString().toLowerCase();
+            user = editTextUserName.getText().toString().toLowerCase();
 
-            password = textViewUserPassword.getText().toString();
+            password = editTextUserPassword.getText().toString();
 
             crud = new CrudUser(getApplicationContext(), user, password);
 
@@ -94,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
             } else {
-                textViewUserName.setError("Este usuario ya existe.");
+                editTextUserName.setError("Este usuario ya existe.");
                 return;
             }
         }
@@ -104,12 +129,12 @@ public class MainActivity extends AppCompatActivity {
     private void setValues() {
         buttonNewAccount = findViewById(R.id.buttonNewAccount);
         buttonLog = findViewById(R.id.buttonLog);
-        textViewUserName = findViewById(R.id.editTextUser);
-        textViewUserPassword = findViewById(R.id.editTextPassword);
+        editTextUserName = findViewById(R.id.editTextUser);
+        editTextUserPassword = findViewById(R.id.editTextPassword);
     }
     private void cleanFields(){
-        textViewUserName.setText("");
-        textViewUserPassword.setText("");
+        editTextUserName.setText("");
+        editTextUserPassword.setText("");
 
     }
 
@@ -121,21 +146,21 @@ public class MainActivity extends AppCompatActivity {
     //Valida solo si los campos estan vacios; todo debe estar bien para que de true
     private boolean emptyFields() {
 
-        if (textViewUserName.getText().toString().isEmpty() && textViewUserPassword.getText().toString().isEmpty()) {
+        if (editTextUserName.getText().toString().isEmpty() && editTextUserPassword.getText().toString().isEmpty()) {
 
-            textViewUserName.setError("Required for this action");
+            editTextUserName.setError("Required for this action");
 
-            textViewUserPassword.setError("Required for this action");
+            editTextUserPassword.setError("Required for this action");
 
             showMessage("Datos obligatorios");
             return false;
 
-        } else if (textViewUserName.getText().toString().isEmpty()) {
-            textViewUserName.setError("Required for this action");
+        } else if (editTextUserName.getText().toString().isEmpty()) {
+            editTextUserName.setError("Required for this action");
             return false;
 
-        } else if (textViewUserPassword.getText().toString().isEmpty()) {
-            textViewUserPassword.setError("Required for this action");
+        } else if (editTextUserPassword.getText().toString().isEmpty()) {
+            editTextUserPassword.setError("Required for this action");
             return false;
         } else {
             return true;
@@ -145,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
     //Valida que los caracteres en los campos sean mayor de 5
     private boolean lenghtRequireed() {
         //length mayor de 5 caracterres para los dos inputs
-        if (textViewUserName.getText().length() < 3) {
-            textViewUserName.setError("Debe tener minimo 3 caracteres.");
+        if (editTextUserName.getText().length() < 3) {
+            editTextUserName.setError("Debe tener minimo 3 caracteres.");
             return false;
 
-        } else if (textViewUserPassword.getText().length() < 5) {
-            textViewUserPassword.setError("Debe tener minimo 5 caracteres.");
+        } else if (editTextUserPassword.getText().length() < 5) {
+            editTextUserPassword.setError("Debe tener minimo 5 caracteres.");
             return false;
         } else {
             return true;

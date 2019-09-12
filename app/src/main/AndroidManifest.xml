@@ -12,19 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Vistas.Tasks">
-            Tus tareas
-        </activity>
-        <activity
-            android:name=".Vistas.NewTask"
-            android:label="settings" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Vistas.Tasks" android:label="Your taks"></activity>
+z
+        <activity android:name=".Vistas.NewTask" android:label="New Task" android:parentActivityName=".Vistas.Tasks"></activity>
     </application>
+
+
 
 </manifest>
