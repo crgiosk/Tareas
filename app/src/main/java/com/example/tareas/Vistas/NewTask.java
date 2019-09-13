@@ -66,10 +66,6 @@ public class NewTask extends AppCompatActivity {
         });
 
         buttonNewTask.setText(action);
-
-
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
     }
 
     private void deleteUSer() {
@@ -112,7 +108,7 @@ public class NewTask extends AppCompatActivity {
                Task();
             else
                 Toast.makeText(this, "Choose a delivery date.", Toast.LENGTH_LONG).show();
-            delivery.setError("Elija una fecha de entrega.");
+            delivery.setError("Choose a delivery date");
             return;
         } else {
             Toast.makeText(this, "Information is missing.", Toast.LENGTH_LONG).show();

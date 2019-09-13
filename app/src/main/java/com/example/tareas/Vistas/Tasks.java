@@ -60,8 +60,8 @@ public class Tasks extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //getSupportActionBar().setIcon(R.mipmap.ic_toolbar);
     }
 
     private boolean exisPreferences() {
